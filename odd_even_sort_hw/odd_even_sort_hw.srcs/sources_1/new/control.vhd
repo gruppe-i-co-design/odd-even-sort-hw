@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity control is
     Port (
         clk, rst, enable, clear, sorted: in std_logic;
-        reg_mux, load, sorte_done: out std_logic
+        reg_mux, load, sort_done: out std_logic
         
     );
 end control;
@@ -32,7 +32,7 @@ begin
 	next_state <= current_state; 
 	reg_mux <= '0';
 	load <= '0';
-	sorte_done <= '0';
+	sort_done <= '0';
 
 	case current_state is
 		when idle =>
@@ -46,7 +46,7 @@ begin
                 next_state <= idle;
             else
                 if (sorted = '1') then
-                    sorte_done <= '1';
+                    sort_done <= '1';
                 else 
                     reg_mux <= '1';
                     load <= '1';
