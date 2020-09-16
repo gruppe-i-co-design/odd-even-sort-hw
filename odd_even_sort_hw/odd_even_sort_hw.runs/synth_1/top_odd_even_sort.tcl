@@ -90,6 +90,7 @@ OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
   C:/Users/m_rah/Desktop/assignments/assignment_3/odd_even_sort_hw/odd_even_sort_hw.srcs/sources_1/new/comparator.vhd
+  C:/Users/m_rah/Desktop/assignments/assignment_3/odd_even_sort_hw/odd_even_sort_hw.srcs/sources_1/new/control.vhd
   C:/Users/m_rah/Desktop/assignments/assignment_3/odd_even_sort_hw/odd_even_sort_hw.srcs/sources_1/new/sort_layer.vhd
   C:/Users/m_rah/Desktop/assignments/assignment_3/odd_even_sort_hw/odd_even_sort_hw.srcs/sources_1/new/top_odd_even_sort.vhd
 }

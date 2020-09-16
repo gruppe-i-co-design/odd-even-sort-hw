@@ -9,7 +9,7 @@ entity control is
     );
 end control;
 
-architecture Behavioral of control is
+architecture arch of control is
 
     type t_state is (idle, iterate);
     signal current_state, next_state: t_state;
@@ -27,7 +27,7 @@ begin
 end process;
 
 -- next-state logic
-process (current_state, enable)
+process (current_state, enable, sorted)
 begin
 	next_state <= current_state; 
 	reg_mux <= '0';
@@ -47,6 +47,7 @@ begin
             else
                 if (sorted = '1') then
                     sort_done <= '1';
+                    next_state <= idle;
                 else 
                     reg_mux <= '1';
                     load <= '1';
@@ -55,4 +56,4 @@ begin
 	end case;
 end process;
 
-end Behavioral;
+end;
