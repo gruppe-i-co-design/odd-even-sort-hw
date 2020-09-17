@@ -1,59 +1,57 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
 
-entity control is
-    Port (
-        clk, rst, enable, clear, sorted: in std_logic;
-        reg_mux, load, sort_done: out std_logic
-        
-    );
-end control;
+ENTITY control IS
+	PORT (
+		clk, rst, enable, clear, sorted : IN STD_LOGIC;
+		reg_mux, load, sort_done : OUT STD_LOGIC
+	);
+END control;
 
-architecture arch of control is
+ARCHITECTURE arch OF control IS
 
-    type t_state is (idle, iterate);
-    signal current_state, next_state: t_state;
+	TYPE t_state IS (idle, iterate);
+	SIGNAL current_state, next_state : t_state;
 
-begin
+BEGIN
 
--- state register
-process (clk, rst)
-begin
-	if (rst = '1') then
-		current_state <= idle;
-	elsif rising_edge(clk) then
-		current_state <= next_state;
-	end if;
-end process;
+	-- state register
+	PROCESS (clk, rst)
+	BEGIN
+		IF (rst = '1') THEN
+			current_state <= idle;
+		ELSIF rising_edge(clk) THEN
+			current_state <= next_state;
+		END IF;
+	END PROCESS;
 
--- next-state logic
-process (current_state, enable, sorted)
-begin
-	next_state <= current_state; 
-	reg_mux <= '0';
-	load <= '0';
-	sort_done <= '0';
+	-- next-state logic
+	PROCESS (current_state, enable, sorted, clear)
+	BEGIN
+		next_state <= current_state;
+		reg_mux <= '0';
+		load <= '0';
+		sort_done <= '0';
 
-	case current_state is
-		when idle =>
-			if enable = '1' then 
-			     reg_mux <= '0';
-			     load <= '1';
-			     next_state <= iterate;
-			end if;
-        when iterate =>
-            if clear = '1' then 
-                next_state <= idle;
-            else
-                if (sorted = '1') then
-                    sort_done <= '1';
-                    next_state <= idle;
-                else 
-                    reg_mux <= '1';
-                    load <= '1';
-                end if;
-			end if;
-	end case;
-end process;
-
-end;
+		CASE current_state IS
+			WHEN idle =>
+				IF enable = '1' THEN
+					reg_mux <= '0';
+					load <= '1';
+					next_state <= iterate;
+				END IF;
+			WHEN iterate =>
+				IF clear = '1' THEN
+					next_state <= idle;
+				ELSE
+					IF (sorted = '1') THEN
+						sort_done <= '1';
+						next_state <= idle;
+					ELSE
+						reg_mux <= '1';
+						load <= '1';
+					END IF;
+				END IF;
+		END CASE;
+	END PROCESS;
+END;

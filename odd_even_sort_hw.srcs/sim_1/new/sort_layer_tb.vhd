@@ -1,57 +1,51 @@
-library IEEE;
-library work;
-use work.constants.all;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+LIBRARY IEEE;
+LIBRARY WORK;
+USE WORK.CONSTANTS.ALL;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
 
-entity sort_layer_tb is
+ENTITY sort_layer_tb IS
+END sort_layer_tb;
 
-end sort_layer_tb;
+ARCHITECTURE arch OF sort_layer_tb IS
 
-architecture arch of sort_layer_tb is
+	SIGNAL clk : STD_LOGIC;
+	CONSTANT clk_period : TIME := 10ns;
+	SIGNAL data_in : layer_signals_t(0 TO 3);
 
-signal clk: std_logic;
-constant clk_period: time := 10ns;
-signal data_in: layer_signals_t(0 to 3);
+BEGIN
+	uut : ENTITY work.sort_layer
+		GENERIC MAP(
+			SIZE => 4
+		)
+		PORT MAP(
+			data_in => data_in
 
-begin
+		);
 
-uut: entity work.sort_layer
-        generic map(
-                    SIZE => 4
-                    )
-       port map(
-                data_in => data_in
-            
-                );
-                
-   
-process
-begin
-    
-    data_in(0) <= x"AB";
-    data_in(1) <= x"66";
-    data_in(2) <= x"FF";
-    data_in(3) <= x"AF";
-    wait for clk_period;
-    
-    data_in(0) <= x"66";
-    data_in(1) <= x"AB";
-    data_in(2) <= x"AF";
-    data_in(3) <= x"FF";
-    wait for clk_period;
-end process;
-              
-                
-process
-begin
-    clk <= '0';
-    wait for clk_period / 2;
-    
-    
-    
-    clk <= '1';
-    wait for clk_period / 2;
-end process;
+	PROCESS
+	BEGIN
 
-end arch;
+		data_in(0) <= x"AB";
+		data_in(1) <= x"66";
+		data_in(2) <= x"FF";
+		data_in(3) <= x"AF";
+		WAIT FOR clk_period;
+
+		data_in(0) <= x"66";
+		data_in(1) <= x"AB";
+		data_in(2) <= x"AF";
+		data_in(3) <= x"FF";
+		WAIT FOR clk_period;
+
+	END PROCESS;
+
+	PROCESS
+	BEGIN
+		clk <= '0';
+		WAIT FOR clk_period / 2;
+
+		clk <= '1';
+		WAIT FOR clk_period / 2;
+	END PROCESS;
+END arch;
